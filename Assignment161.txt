@@ -1,12 +1,5 @@
 SET mapreduce.framework.name = local;
 
-SET HIVE_INFER_BUCKET_SORT = false;
-SET HIVEMETADATAONLYQUERIES = false;
-SET HIVEOPTINDEXFILTER = false;
-SET HIVECONVERSION = false;
-SET HIVESKEWJOIN = false;
-
-
 CREATE DATABASE Demo5;
 
 CREATE TABLE Employee
