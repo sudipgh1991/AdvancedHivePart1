@@ -1,0 +1,37 @@
+SET mapreduce.framework.name = local;
+
+SET HIVE_INFER_BUCKET_SORT = false;
+SET HIVEMETADATAONLYQUERIES = false;
+SET HIVEOPTINDEXFILTER = false;
+SET HIVECONVERSION = false;
+SET HIVESKEWJOIN = false;
+
+
+CREATE DATABASE Demo5;
+
+CREATE TABLE Employee
+     (Emp_Name string,
+     Skill string,
+     DepID int,
+     Location string,
+     Salary int	)
+ROW FORMAT DELIMITED 
+FIELDS TERMINATED BY ',';
+
+LOAD DATA LOCAL INPATH '/home/cloudera/Desktop/SudipWorkspace/Hive/DataSet3.txt' OVERWRITE INTO TABLE `Demo5.Employee`;
+
+
+--Question 1
+
+select a.Emp_Name,a.DepID,a.Salary from
+(select Emp_Name,DepID,Salary from Employee) a 
+join ( select DepID,Max(Salary)-100 as MaxSalary from Employee group by DepID ) c 
+on a.DepID=c.DepID
+where a.salary < c.MaxSalary
+
+--Question 2
+select a.Emp_Name,a.DepID,a.Salary,c.AvgSalary from 
+(select Emp_Name,DepID,Salary from Employee ) a
+join ( select DepID,AVG(Salary) as AvgSalary from Employee group by DepID ) c
+on a.DepID=c.DepID
+where a.Salary > c.AvgSalary
